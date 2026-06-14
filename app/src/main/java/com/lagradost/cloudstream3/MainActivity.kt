@@ -87,6 +87,7 @@ import com.lagradost.cloudstream3.mvvm.observe
 import com.lagradost.cloudstream3.mvvm.observeNullable
 import com.lagradost.cloudstream3.network.initClient
 import com.lagradost.cloudstream3.plugins.PluginManager
+import com.lagradost.cloudstream3.plugins.RepositoryManager
 import com.lagradost.cloudstream3.plugins.PluginManager.___DO_NOT_CALL_FROM_A_PLUGIN_loadAllOnlinePlugins
 import com.lagradost.cloudstream3.plugins.PluginManager.loadSinglePlugin
 import com.lagradost.cloudstream3.receivers.VideoDownloadRestartReceiver
@@ -1377,6 +1378,31 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogListener, BiometricCa
                             this@MainActivity,
                             autoDownloadPlugin
                         )
+                    }
+                }
+
+                ioSafe {
+                    val repoUrl = "https://raw.githubusercontent.com/phisher98/cloudstream-extensions-phisher/refs/heads/builds/repo.json"
+                    val targetPlugins = setOf("FourKHDHub", "MovieBoxProvider")
+                    val plugins = RepositoryManager.getRepoPlugins(repoUrl) ?: return@ioSafe
+                    plugins.filter { (_, plugin) ->
+                        plugin.internalName in targetPlugins
+                    }.forEach { (repositoryUrl, plugin) ->
+                        if (!PluginManager.getPluginPath(
+                                this@MainActivity,
+                                plugin.internalName,
+                                repositoryUrl
+                            ).exists()
+                        ) {
+                            PluginManager.downloadPlugin(
+                                this@MainActivity,
+                                plugin.url,
+                                plugin.fileHash,
+                                plugin.internalName,
+                                repositoryUrl,
+                                true
+                            )
+                        }
                     }
                 }
 

@@ -20,6 +20,7 @@ import com.lagradost.cloudstream3.plugins.PluginManager
 import com.lagradost.cloudstream3.ui.settings.Globals.EMULATOR
 import com.lagradost.cloudstream3.ui.settings.Globals.TV
 import com.lagradost.cloudstream3.ui.settings.Globals.isLayout
+import com.lagradost.cloudstream3.ui.settings.extensions.RepositoryData
 import com.lagradost.cloudstream3.utils.AppContextUtils.openBrowser
 import com.lagradost.cloudstream3.utils.AppDebug
 import com.lagradost.cloudstream3.utils.Coroutines.runOnMainThread
@@ -84,6 +85,17 @@ class CloudStreamApp : Application(), SingletonImageLoader.Factory {
         }
 
         AppDebug.isDebug = BuildConfig.DEBUG
+
+        val prebuiltKey = "PREBUILT_REPOSITORIES"
+        val existing = getKey<Array<RepositoryData>>(prebuiltKey)
+        if (existing.isNullOrEmpty()) {
+            setKey(prebuiltKey, arrayOf(
+                RepositoryData(
+                    name = "phisher98",
+                    url = "https://raw.githubusercontent.com/phisher98/cloudstream-extensions-phisher/refs/heads/builds/repo.json"
+                )
+            ))
+        }
     }
 
     override fun attachBaseContext(base: Context?) {
