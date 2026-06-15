@@ -636,19 +636,7 @@ class HomeParentItemAdapterPreview(
                 }
             }
 
-            (binding as? FragmentHomeHeadBinding)?.apply {
-                homeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String): Boolean {
-                        viewModel.queryTextSubmit(query)
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String): Boolean {
-                        viewModel.queryTextChange(newText)
-                        return true
-                    }
-                })
-            }
+            Unit
         }
 
         private fun updatePreview(preview: Resource<Pair<Boolean, List<LoadResponse>>>) {
