@@ -160,7 +160,7 @@
             android:focusable="true"
             android:foreground="@drawable/rounded_select_ripple"
             android:gravity="center"
-            android:nextFocusLeft="@id/home_search"
+            android:nextFocusLeft="@id/home_shitflix_title"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView

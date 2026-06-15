@@ -156,7 +156,7 @@
                 android:layout_gravity="end"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/account"
-                android:nextFocusLeft="@id/home_search"
+                android:nextFocusLeft="@id/home_shitflix_title"
                 android:padding="10dp"
                 android:src="@drawable/ic_outline_account_circle_24" />
         </LinearLayout>
