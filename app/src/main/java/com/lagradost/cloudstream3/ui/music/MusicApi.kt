@@ -26,16 +26,15 @@ data class MusicSection(
 )
 
 object MusicApi {
-    private fun buildBody(extra: JsonObjectBuilder.() -> Unit): JsonObject = buildJsonObject {
+    private fun contextJson(): JsonObject = buildJsonObject {
         putJsonObject("context") {
             putJsonObject("client") {
-                put("clientName", "WEB_REMIX")
-                put("clientVersion", "1.20250204.01.00")
-                put("gl", "US")
-                put("hl", "en")
+                put("clientName", JsonPrimitive("WEB_REMIX"))
+                put("clientVersion", JsonPrimitive("1.20250204.01.00"))
+                put("gl", JsonPrimitive("US"))
+                put("hl", JsonPrimitive("en"))
             }
         }
-        extra()
     }
 
     private suspend fun innerTubeRequest(endpoint: String, body: JsonObject): Result<JsonElement> {
@@ -179,8 +178,10 @@ object MusicApi {
     }
 
     suspend fun search(query: String): Result<List<MusicSong>> {
-        val body = buildBody {
-            put("query", query)
+        val ctx = contextJson()
+        val body = buildJsonObject {
+            ctx.forEach { (key, value) -> put(key, value) }
+            put("query", JsonPrimitive(query))
         }
         return try {
             val json = innerTubeRequest("search", body).getOrThrow()
@@ -191,8 +192,10 @@ object MusicApi {
     }
 
     suspend fun getHomeSections(): Result<List<MusicSection>> {
-        val body = buildBody {
-            put("browseId", "FEmusic_home")
+        val ctx = contextJson()
+        val body = buildJsonObject {
+            ctx.forEach { (key, value) -> put(key, value) }
+            put("browseId", JsonPrimitive("FEmusic_home"))
         }
         return try {
             val json = innerTubeRequest("browse", body).getOrThrow()
@@ -203,8 +206,10 @@ object MusicApi {
     }
 
     suspend fun getStreamUrl(videoId: String): Result<String?> {
-        val body = buildBody {
-            put("videoId", videoId)
+        val ctx = contextJson()
+        val body = buildJsonObject {
+            ctx.forEach { (key, value) -> put(key, value) }
+            put("videoId", JsonPrimitive(videoId))
         }
         return try {
             val json = innerTubeRequest("player", body).getOrThrow()
