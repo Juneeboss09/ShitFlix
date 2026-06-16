@@ -4,6 +4,8 @@ import com.lagradost.api.Log
 import com.lagradost.cloudstream3.app
 import com.lagradost.cloudstream3.mvvm.logError
 import kotlinx.serialization.json.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 private const val TAG = "MusicApi"
 private const val INNERTUBE_API_KEY = "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
@@ -41,8 +43,7 @@ object MusicApi {
         return try {
             val url = "$BASE_URL/$endpoint?key=$INNERTUBE_API_KEY"
             val bodyStr = body.toString()
-            val mediaType = okhttp3.MediaType.get("application/json; charset=utf-8")
-            val requestBody = okhttp3.RequestBody.create(mediaType, bodyStr)
+            val requestBody = bodyStr.toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = okhttp3.Request.Builder()
                 .url(url)
                 .post(requestBody)
