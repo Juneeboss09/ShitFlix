@@ -26,7 +26,7 @@ data class MusicSection(
 )
 
 object MusicApi {
-    private fun buildBody(extra: JsonObject.() -> Unit): JsonObject = buildJsonObject {
+    private fun buildBody(extra: JsonObjectBuilder.() -> Unit): JsonObject = buildJsonObject {
         putJsonObject("context") {
             putJsonObject("client") {
                 put("clientName", "WEB_REMIX")
@@ -42,7 +42,7 @@ object MusicApi {
         return try {
             val url = "$BASE_URL/$endpoint?key=$INNERTUBE_API_KEY"
             val bodyStr = body.toString()
-            val mediaType = okhttp3.MediaType.parse("application/json; charset=utf-8")!!
+            val mediaType = okhttp3.MediaType.get("application/json; charset=utf-8")
             val requestBody = okhttp3.RequestBody.create(mediaType, bodyStr)
             val request = okhttp3.Request.Builder()
                 .url(url)
