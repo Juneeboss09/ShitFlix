@@ -26,7 +26,7 @@ data class MusicSection(
 )
 
 object MusicApi {
-    private fun contextJson(): JsonObject = buildJsonObject {
+    private fun buildBody(extra: JsonObject.() -> Unit): JsonObject = buildJsonObject {
         putJsonObject("context") {
             putJsonObject("client") {
                 put("clientName", "WEB_REMIX")
@@ -35,24 +35,21 @@ object MusicApi {
                 put("hl", "en")
             }
         }
+        extra()
     }
 
     private suspend fun innerTubeRequest(endpoint: String, body: JsonObject): Result<JsonElement> {
         return try {
             val url = "$BASE_URL/$endpoint?key=$INNERTUBE_API_KEY"
             val bodyStr = body.toString()
-            val headers = mapOf(
-                "User-Agent" to USER_AGENT,
-                "Content-Type" to "application/json",
-                "Origin" to "https://music.youtube.com"
-            )
-            val requestBody = bodyStr.toRequestBody(
-                okhttp3.MediaType.Companion.parse("application/json; charset=utf-8")
-            )
+            val mediaType = okhttp3.MediaType.parse("application/json; charset=utf-8")!!
+            val requestBody = okhttp3.RequestBody.create(mediaType, bodyStr)
             val request = okhttp3.Request.Builder()
                 .url(url)
                 .post(requestBody)
-                .apply { headers.forEach { (k, v) -> addHeader(k, v) } }
+                .addHeader("User-Agent", USER_AGENT)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Origin", "https://music.youtube.com")
                 .build()
             val response = app.baseClient.newCall(request).execute()
             val text = response.body?.string() ?: ""
@@ -182,35 +179,36 @@ object MusicApi {
     }
 
     suspend fun search(query: String): Result<List<MusicSong>> {
-        val body = contextJson().let { base ->
-            base.toMutableJsonObject().apply {
-                put("query", query)
-            }
+        val body = buildBody {
+            put("query", query)
         }
-        return innerTubeRequest("search", body).map { json ->
-            extractSongsFromSearch(json)
+        return try {
+            val json = innerTubeRequest("search", body).getOrThrow()
+            Result.success(extractSongsFromSearch(json))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 
     suspend fun getHomeSections(): Result<List<MusicSection>> {
-        val body = contextJson().let { base ->
-            base.toMutableJsonObject().apply {
-                put("browseId", "FEmusic_home")
-            }
+        val body = buildBody {
+            put("browseId", "FEmusic_home")
         }
-        return innerTubeRequest("browse", body).map { json ->
-            extractSongsFromBrowse(json)
+        return try {
+            val json = innerTubeRequest("browse", body).getOrThrow()
+            Result.success(extractSongsFromBrowse(json))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 
     suspend fun getStreamUrl(videoId: String): Result<String?> {
-        val body = contextJson().let { base ->
-            base.toMutableJsonObject().apply {
-                put("videoId", videoId)
-            }
+        val body = buildBody {
+            put("videoId", videoId)
         }
-        return innerTubeRequest("player", body).map { json ->
-            try {
+        return try {
+            val json = innerTubeRequest("player", body).getOrThrow()
+            val url = try {
                 val formats = json.jsonObject["streamingData"]?.jsonObject
                     ?.get("adaptiveFormats")?.jsonArray
 
@@ -227,10 +225,9 @@ object MusicApi {
                 logError(e)
                 null
             }
+            Result.success(url)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-    }
-
-    private fun String.toRequestBody(contentType: okhttp3.MediaType): okhttp3.RequestBody {
-        return okhttp3.RequestBody.create(contentType, this)
     }
 }

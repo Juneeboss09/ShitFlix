@@ -60,5 +60,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <include layout="@layout/music_mini_player" />
+    <include
+        android:id="@+id/mini_player"
+        layout="@layout/music_mini_player" />
 </LinearLayout>

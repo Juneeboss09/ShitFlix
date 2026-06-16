@@ -41,15 +41,15 @@ class MusicHomeFragment : Fragment() {
             requireActivity().navigate(R.id.navigation_music_search)
         }
 
-        binding.musicMiniPlayer.setOnClickListener {
+        binding.miniPlayer.musicMiniPlayer.setOnClickListener {
             showPlayerSheet()
         }
 
-        binding.miniPlayerPlayPause.setOnClickListener {
+        binding.miniPlayer.miniPlayerPlayPause.setOnClickListener {
             musicViewModel.togglePlayPause()
         }
 
-        binding.miniPlayerNext.setOnClickListener {
+        binding.miniPlayer.miniPlayerNext.setOnClickListener {
             musicViewModel.nextSong()
         }
 
@@ -77,17 +77,17 @@ class MusicHomeFragment : Fragment() {
 
         musicViewModel.currentSong.observe(viewLifecycleOwner) { song ->
             if (song == null) {
-                binding.musicMiniPlayer.isVisible = false
+                binding.miniPlayer.musicMiniPlayer.isVisible = false
             } else {
-                binding.musicMiniPlayer.isVisible = true
-                binding.miniPlayerTitle.text = song.title
-                binding.miniPlayerArtist.text = song.artist
-                binding.miniPlayerThumbnail.loadImage(song.thumbnail)
+                binding.miniPlayer.musicMiniPlayer.isVisible = true
+                binding.miniPlayer.miniPlayerTitle.text = song.title
+                binding.miniPlayer.miniPlayerArtist.text = song.artist
+                binding.miniPlayer.miniPlayerThumbnail.loadImage(song.thumbnail)
             }
         }
 
         musicViewModel.isPlaying.observe(viewLifecycleOwner) { playing ->
-            binding.miniPlayerPlayPause.setImageResource(
+            binding.miniPlayer.miniPlayerPlayPause.setImageResource(
                 if (playing) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24
             )
         }
