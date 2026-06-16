@@ -636,7 +636,19 @@ class HomeParentItemAdapterPreview(
                 }
             }
 
-            Unit
+            (binding as? FragmentHomeHeadBinding)?.apply {
+                homeShitflixTitle.setOnClickListener {
+                    val ctx = it.context
+                    try {
+                        androidx.navigation.Navigation.findNavController(
+                            ctx as android.app.Activity,
+                            R.id.nav_host_fragment
+                        ).navigate(R.id.action_navigation_home_to_navigation_music_home)
+                    } catch (e: Exception) {
+                        com.lagradost.cloudstream3.mvvm.logError(e)
+                    }
+                }
+            }
         }
 
         private fun updatePreview(preview: Resource<Pair<Boolean, List<LoadResponse>>>) {

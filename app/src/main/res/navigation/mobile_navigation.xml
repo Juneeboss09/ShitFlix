@@ -305,7 +305,42 @@
             app:exitAnim="@anim/exit_anim"
             app:popEnterAnim="@anim/enter_anim"
             app:popExitAnim="@anim/exit_anim" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_music_home"
+            app:destination="@id/navigation_music_home"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/enter_anim"
+            app:popExitAnim="@anim/exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_music_home"
+        android:name="com.lagradost.cloudstream3.ui.music.MusicHomeFragment"
+        android:label="SHITTIFY"
+        app:enterAnim="@anim/enter_anim"
+        app:exitAnim="@anim/exit_anim"
+        app:popEnterAnim="@anim/enter_anim"
+        app:popExitAnim="@anim/exit_anim"
+        tools:layout="@layout/fragment_music_home">
+        <action
+            android:id="@+id/action_navigation_music_home_to_navigation_music_search"
+            app:destination="@id/navigation_music_search"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/enter_anim"
+            app:popExitAnim="@anim/exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_music_search"
+        android:name="com.lagradost.cloudstream3.ui.music.MusicSearchFragment"
+        android:label="Search Music"
+        app:enterAnim="@anim/enter_anim"
+        app:exitAnim="@anim/exit_anim"
+        app:popEnterAnim="@anim/enter_anim"
+        app:popExitAnim="@anim/exit_anim"
+        tools:layout="@layout/fragment_music_search" />
 
     <fragment
         android:id="@+id/navigation_search"

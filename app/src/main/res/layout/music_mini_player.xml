@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_mini_player"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#282828"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <ImageView
+        android:id="@+id/mini_player_thumbnail"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="12dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/example_poster" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="68dp"
+        android:layout_marginEnd="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mini_player_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Song Title" />
+
+        <TextView
+            android:id="@+id/mini_player_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/grayTextColor"
+            android:textSize="12sp"
+            tools:text="Artist Name" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/mini_player_play_pause"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Play/Pause"
+        android:padding="12dp"
+        android:src="@drawable/ic_baseline_play_arrow_24"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/mini_player_next"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="56dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Next"
+        android:padding="14dp"
+        android:src="@drawable/ic_baseline_skip_next_24"
+        app:tint="@color/white" />
+</FrameLayout>

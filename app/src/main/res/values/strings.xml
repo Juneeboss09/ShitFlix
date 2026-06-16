@@ -26,6 +26,8 @@
     <string name="rated_format" formatted="true">Rated: %.1f</string>
     <string name="new_update_format" formatted="true">New update found!\n%1$s -&gt; %2$s</string>
     <string name="filler" formatted="true">Filler</string>
+    <string name="title_music">Music</string>
+    <string name="search_music_hint">Search songs, artists…</string>
     <string name="duration_format" formatted="true">%d min</string>
     <string name="app_name">Shitflix</string>
     <string name="play_with_app_name">Play with Shitflix</string>
